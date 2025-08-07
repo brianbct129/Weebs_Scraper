@@ -6,6 +6,17 @@ module.exports.getLatestManga = async (req, res) => {
   const keyword = req.query.s;
   const url = req.protocol + "://" + req.get("host") + req.baseUrl;
 
+  /// Check if KOMIKCAST_LINK is configured
+  if (!process.env.KOMIKCAST_LINK) {
+    return res.json({
+      error: {
+        message: "KOMIKCAST_LINK environment variable is not configured",
+        code: "ENV_NOT_CONFIGURED"
+      },
+      data: []
+    });
+  }
+
   /// Crawl URL
   let crawlUrl = `${process.env.KOMIKCAST_LINK}/daftar-komik/page/${page}/?sortby=update`;
   if (keyword) {
@@ -100,7 +111,19 @@ module.exports.getMangaByParam = async (req, res) => {
   const { param } = req.params;
   const url = req.protocol + "://" + req.get("host") + req.baseUrl;
 
-  let crawlUrl = `${process.env.KOMIKCAST_LINK}/manga/${param}`;
+  /// Check if KOMIKCAST_LINK is configured
+  if (!process.env.KOMIKCAST_LINK) {
+    return res.json({
+      error: {
+        message: "KOMIKCAST_LINK environment variable is not configured",
+        code: "ENV_NOT_CONFIGURED"
+      },
+      data: {}
+    });
+  }
+
+  /// Crawl URL
+   let crawlUrl = `${process.env.KOMIKCAST_LINK}/manga/${param}`;
 
   /// Json Result
   let jsonResult = {};
@@ -191,6 +214,17 @@ module.exports.getMangaByParam = async (req, res) => {
 module.exports.getMangaChapterByParam = async (req, res) => {
   const { param } = req.params;
   const chapterImages = [];
+
+  /// Check if KOMIKCAST_LINK is configured
+  if (!process.env.KOMIKCAST_LINK) {
+    return res.json({
+      error: {
+        message: "KOMIKCAST_LINK environment variable is not configured",
+        code: "ENV_NOT_CONFIGURED"
+      },
+      data: []
+    });
+  }
 
   let crawlUrl = `${process.env.KOMIKCAST_LINK}/chapter/${param}`;
 

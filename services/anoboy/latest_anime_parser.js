@@ -4,6 +4,17 @@ const arrayHelper = require("../../helper/array-helper.js");
 
 /// Parse latest anime using cheerio
 async function parseLatestAnime(keyword, url, page) {
+  /// Check if ANOBOY_LINK is configured
+  if (!process.env.ANOBOY_LINK) {
+    return {
+      error: {
+        message: "ANOBOY_LINK environment variable is not configured",
+        code: "ENV_NOT_CONFIGURED"
+      },
+      data: []
+    };
+  }
+
   /// Get URL Based on query params
   let getUrl = "";
 
