@@ -7,6 +7,17 @@ const AnoboyEmbedLinkHelper = require("../../helper/anoboy_helpers/anoboy_video_
 const AnoboyEpisodesHelper = require("../../helper/anoboy_helpers/anoboy_episodes_helper.js");
 
 async function parseAnimeByParam(tempParam, url) {
+  /// Check if ANOBOY_LINK is configured
+  if (!process.env.ANOBOY_LINK) {
+    return {
+      error: {
+        message: "ANOBOY_LINK environment variable is not configured",
+        code: "ENV_NOT_CONFIGURED"
+      },
+      data: {}
+    };
+  }
+
   /// Json Result
   let jsonResult = {};
 
